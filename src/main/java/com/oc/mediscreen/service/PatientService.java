@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -22,11 +23,11 @@ public class PatientService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid patient Id:" + id));
     }
 
-    public Patient findByPhone(String phone){
+    public Patient findByPhone(String phone) {
         return patientRepository.findByPhone(phone);
     }
 
-    public List<Patient> findByAddress(String address){
+    public List<Patient> findByAddress(String address) {
         return patientRepository.findByAddress(address);
     }
 
@@ -38,16 +39,24 @@ public class PatientService {
         patientRepository.deleteById(id);
     }
 
-    public void update(Patient patient, String family, String given) {
-        Patient oldPatient = patientRepository.findByFamilyAndGiven(family, given);
+    public void update(Patient patient, Long id) {
 
-        oldPatient.setFamily(patient.getFamily());
-        oldPatient.setGiven(patient.getGiven());
-        oldPatient.setDob(patient.getDob());
-        oldPatient.setSex(patient.getSex());
-        oldPatient.setAddress(patient.getAddress());
-        oldPatient.setPhone(patient.getPhone());
+        Optional<Patient> oldPatientOptional = patientRepository.findById(id);
 
-        patientRepository.save(oldPatient);
+        if (oldPatientOptional.isPresent()) {
+            Patient oldPatient = oldPatientOptional.get();
+
+            oldPatient.setFamily(patient.getFamily());
+            oldPatient.setFamily(patient.getFamily());
+            oldPatient.setGiven(patient.getGiven());
+            oldPatient.setDob(patient.getDob());
+            oldPatient.setSex(patient.getSex());
+            oldPatient.setAddress(patient.getAddress());
+            oldPatient.setPhone(patient.getPhone());
+            patientRepository.save(patient);
+        } else {
+            throw new IllegalStateException("Patient not found !!!!!");
+        }
     }
+
 }

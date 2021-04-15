@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  mediscreen:
+    depends_on:
+      - db
+    restart: always
+    environment:
+      SPRING.DATASOURCE.USERNAME: marwa
+      SPRING.DATASOURCE.PASSWORD: neyrouz
+      SPRING.DATASOURCE.URL: jdbc:postgresql://db:5432/patient
+    image: marwasahraoui/mediscreen
+    ports:
+      - "8081:8081"
+  mediscreenFront:
+   depends_on:
+     - mediscreen
+   image: marwasahraoui/mediscreenfront
+   ports:
+     - "80:80"
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: marwa
+      POSTGRES_PASSWORD: neyrouz
+      POSTGRES_DB: patient
+    volumes:
+    - /Users/marwa/patients-db:/var/lib/postgresql/data
+

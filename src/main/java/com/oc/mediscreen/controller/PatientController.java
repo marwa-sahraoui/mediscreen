@@ -41,9 +41,9 @@ public class PatientController {
         return patientService.save(patient);
     }
 
-    @PutMapping("/patient/{firstName}/{lastName}")
-    public void updatePatient(@RequestBody Patient patient, @PathVariable String firstName, @PathVariable String lastName) {
-        patientService.update(patient, firstName, lastName);
+    @PutMapping("/{id}")
+    public void updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
+        patientService.update(patient, id);
     }
 
     @DeleteMapping("/{id}")

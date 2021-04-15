@@ -11,6 +11,8 @@ public class Patient {
     private String given;
     private String dob;
     private String sex;
+    private String address;
+    private String phone;
 
     public Patient() {
         //
@@ -80,8 +82,4 @@ public class Patient {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    private String address;
-    private String phone;
-
 }
