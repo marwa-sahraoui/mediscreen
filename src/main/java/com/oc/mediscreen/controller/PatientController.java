@@ -36,8 +36,14 @@ public class PatientController {
         return patientService.findByAddress(address);
     }
 
-    @PostMapping(path = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Patient save(Patient patient) {
+        return patientService.save(patient);
+    }
+
+
+    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Patient saveJson(@RequestBody Patient patient) {
         return patientService.save(patient);
     }
 
