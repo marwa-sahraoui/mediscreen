@@ -35,6 +35,11 @@ public class PatientController {
     public List<Patient> findByAddress(@PathVariable String address) {
         return patientService.findByAddress(address);
     }
+    //pour satisfaire le sprint3
+    @GetMapping("/familyName/{family}")
+    public List<Patient> findByFamily(@PathVariable String family) {
+        return patientService.findByFamily(family);
+    }
 
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Patient save(Patient patient) {

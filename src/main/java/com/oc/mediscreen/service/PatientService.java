@@ -59,4 +59,11 @@ public class PatientService {
         }
     }
 
+    public void deleteAll() {
+        patientRepository.deleteAll();
+    }
+
+    public List<Patient> findByFamily(String family) {
+        return patientRepository.findByFamily(family);
+    }
 }

@@ -8,9 +8,10 @@ import java.util.List;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
+
+
     Patient findByFamilyAndGiven(String family, String given);
-
     Patient findByPhone(String phoneNumber);
-
     List<Patient> findByAddress(String adress);
+    List<Patient> findByFamily(String family);
 }

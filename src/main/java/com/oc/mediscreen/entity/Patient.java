@@ -82,4 +82,5 @@ public class Patient {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

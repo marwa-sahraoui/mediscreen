@@ -6,15 +6,18 @@ services:
       - db
     restart: always
     environment:
-      SPRING.DATASOURCE.USERNAME: marwa
-      SPRING.DATASOURCE.PASSWORD: neyrouz
-      SPRING.DATASOURCE.URL: jdbc:postgresql://db:5432/patient
+      SPRING_DATASOURCE_USERNAME: marwa
+      SPRING_DATASOURCE_PASSWORD: neyrouz
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/patient
     image: marwasahraoui/mediscreen
     ports:
       - "8081:8081"
   mediscreenFront:
    depends_on:
      - mediscreen
+     - practionnersnote
+     - diabetreport
+   restart: always
    image: marwasahraoui/mediscreenfront
    ports:
      - "80:80"
@@ -29,3 +32,35 @@ services:
     volumes:
     - /Users/marwa/patients-db:/var/lib/postgresql/data
 
+  practionnersnote:
+    depends_on:
+      - mongodb
+    restart: always
+    environment:
+      SPRING_DATA_MONGODB_USERNAME: marwaprime
+      SPRING_DATA_MONGODB_PASSWORD: neyrouzprime
+      SPRING_DATA_MONGODB_DATABASE: admin
+      SPRING_DATA_MONGODB_HOST: mongodb
+    image: marwasahraoui/practionnersnote
+    ports:
+      - "8082:8082"
+  mongodb:
+      image: mongo
+      ports:
+        - "27017:27017"
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: marwaprime
+        MONGO_INITDB_ROOT_PASSWORD: neyrouzprime
+      volumes:
+        - /Users/marwa/practionnersnote-db:/data/db
+
+  diabetreport:
+    depends_on:
+      - mediscreen
+      - practionnersnote
+    image: marwasahraoui/diabetreport
+    ports:
+       - "8080:8080"
+    environment: 
+      MEDISCREEN_SERVER_URL: mediscreen
+      PATHISTORY_SERVER_URL: practionnersnote
